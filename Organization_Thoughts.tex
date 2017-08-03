@@ -13,15 +13,13 @@
 \chapter{Overview}
 
 I've mostly been focusing on allocation, organization and data routing. 
-Treating them as all highly linked. 
+Treating them as all highly linked.
 
 Spent time going down different paths:
 
 
-\section{Organization}
 
-
-\subsection{Cell-Organism Hierarchy}
+\section{Cell-Organism Hierarchy}
 
 Elements are stuff
 Heavily allocation based
@@ -30,12 +28,320 @@ Hierarchical, River and Trees
 Macro and micro design levels
 
 
-\subsection{Agent}
+Pretty much most of my prior work
+Law of physics are basic parts that are used to build up to organizational units that have insides outsides and homeostatis
+Well defined boundaries
+Heirachical organization
+Focus on moving data to destination cells
+
+
+
+\section{Agent}
 
 Elements are agents
 Open floor plan, so to speak
 Negative space okay
 Single design level
+
+
+
+\chapter{Cell-Organism Hierarchy Organization}
+
+
+Specifications
+General restrictions being followed.
+Element Restrictions
+Note: There are 71 usable bits for element instance members, and 32 bits for quarks.
+Personal Restrictions
+Currently, the event window look-ups are restricted to adjacent sites, sites 1 through 4 as a HW implementation feasibility measure.
+Allocations Types
+Summary
+The desired requirements for allocation, size management, systems are the following:
+Containing a space with a specified shape
+Able to specify a max allocation
+Separates between different allocation IDs and from unknown elements
+Growth of allocated space tries to fill available space
+Deal gracefully with inconsistencies in shape of available space
+Kill allocation process if unfeasible
+Demos
+[ULAM - Bubble Allocation Demo]([https://www.youtube.com/watch?v=diiUx5CkXa4](https://www.youtube.com/watch?v=diiUx5CkXa4))
+Bubble Allocation
+Summary
+Creates a circle of a max radius if given infinite room
+Allocates using a max radius from a center point
+Locates the centroid of a space if constrained
+Standard allocation on display in github repo.
+Development Process
+The chosen bubble allocation process went through multiple development stages. The selection process involved multiple development groups, with Group 4 being chosen. More details in past commits.
+Group 1 CANCELED 
+Crystalline growth, limited by inconsistencies in available area
+Group 2 CANCELED 
+Initial amorphous growth attempt, unstable
+Group 3 CANCELED 
+Pulsing growth attempt, ran into growth instability, fuse problem
+Group 4
+Based on group 2, with a logic pass-over to improve stability
+Even Distribution of Nuclei of same ID
+Use barriers between nuclei of same ID
+every nucleus/stem have a unique ID separate from type
+transparent barriers form between nuclei of the same type
+allocations will join up together upon death/finalization
+if two of same ID meet, they should merge
+emitters transmit through transparent barriers?
+Future Work
+Currently, Cytoplasm based distance measuring means internal non-Cytoplasm elements will alter the overall shape of the allocated space
+Nucleus auto-centering works with simple organizations, current issues:
+Edges of world are preferable to auto-center, going to expect edges to exist for now
+Elements
+Nucleus
+This element initiates site allocation, by creating Cytoplasm elements, and setting their dist data member.
+Has an ID, that is bestowed on Cytoplasm children.
+The ID is used to separate allocated sites by purpose.
+Two nuclei of differing ID will not merge, and will stay distinct.
+Two nuclei of the same ID will share allocated sites.
+A nucleus will die if it is surrounded by Membrane elements.
+Nuclei currently attempt to auto-center themselves within spaces, see Future Work for progress concerning this.
+Parameters:
+maxDist - This parameter determines how much space is allocated.
+Cytoplasm
+This element serves as the primary mechanism for size management.
+Keeps track of a distance value, that decrements going outwards from the nucleus, that is used to determine distance.
+The life-cycle of Cytoplasm is strongly connected to the Membrane life-cycle.
+Membrane
+This element represents the boundary of allocated space.
+This element forms as Cytoplasm elements contact unknown elements, Cytoplasm of a differing ID, or the max allocation range.
+Path Allocation
+Summary
+Creates straight path of a given max width and length if given infinite room
+Goal is the allocation of a path of a minimum width
+Allocations from an edge outwards using a max width and max length
+Ideally, will bend to use up available space
+Development Process
+Below are proposed development directions that this allocation can be accomplished by.
+Edge Idea
+WAITING
+Build layer by layer by active edge
+The edge being built changes from cycle to cycle based on open sites
+Blow Bubbles Idea
+Using multiple bubble allocations
+The centers of each bubble allocation form the path
+Could have a distance restriction from previous bubble
+While trying to separate self from other bubbles
+Retracts if previous bubble moves too far away
+Use transparent barriers and exciters to track nuclei separation
+Variables
+N - number of bubbles
+W - Width of path
+Path length ~ W(N/4 + 1/2)
+Bubble radius ~ W/2
+Bubble separation ~ W/4
+Grow Noodle From Base Idea
+WAITING
+Have forward edge handle collision and bending?
+Bristled Chain Idea
+IN-PROGRESS
+
+Summary
+A chain element goes out with a priority directions.
+There are ‘bristles’ on either side that detect the distance to an obstacle
+And it turns based on the distances measured on either side
+If the minimum distance is ever met, than the chain element will die
+Will marking its direction as bad in its parent chain
+If chain under min chain length, then it will retract and try again, making different direction choices
+In this way, the chain will crawl backwards when a link dies
+Hopefully finding a more optimal path
+Could optimize by increasing amount of info kept about bad paths
+Variables
+Priority Direction
+Min bristle distance
+Max bristle distance
+Max chain length
+Min chain length
+Bad Direction [4]
+Logic
+Pointing Priority
+if d < Max
+Turn Away onto not bad non-priority direction
+elif d < Min
+Die and mark as bad
+else
+Keep Straight
+Else
+if d < Max
+Go current direction
+elif d < Min
+Die and mark as bad
+else
+Return to priority direction
+Implementation Plan
+Implement simple single width path
+Only detects adjacent sites to chain, will detect non-adjacent chains and obstacles
+Implement bristles, only detect on obstacles
+Modify detection to be half of width, using new bristle elements Base on bubble centering logic
+Implement prior path bristles detection by current bristles
+Detect bristles from previous chains so the path will maximize turning radius and reduce bristle overlap
+Add in optimization’s such as keeping more bad path info
+Add in logic and more data to allow for path assumptions to reduce dead-end path attempts
+Future Work
+Not yet implemented
+Elements
+Path Stem
+Chain
+Bristle
+Organization Levels
+The following are the requirements for organization:
+Relative addressing levels
+Absolute addressing is not possible
+Perform some kind of life-cycle management
+Current Levels include:
+Organ Layer
+Lobe Layer
+Leaf Layer
+Hierarchical Loop Organization
+This forms the general organization of an organ. A hierarchical loop, where a central loop has a controlled distribution of contents. This distribution is then propagated through adjoining loops, indirectly.
+Benefits
+Higher throughput than a melange, more directed. Encapsulation of functionality. Protect information better?
+Organization Summary
+Organ
+Bubble allocation
+Variables
+Max Radius
+Organ ID
+determine leave/stem IDs
+Lobes (generic)
+Path allocation
+Variables
+base width
+max length
+Leaves
+Path allocation
+Variables
+Base width
+max length
+Stem ID
+Determines filters
+Notes
+Organ
+Hierarchical loop top-level
+Primary address level
+Has an allocation bubble
+Basic I/O ports
+Central kernel/node
+Connects to lobes and I/O
+Lobes have width, determines leaf height
+Coil out into available space
+Fit as many as possible with given width
+Leaves
+Grow within lobe wall
+Circulated through system and embed where there is open space
+simple loop
+has base width
+stem forms center
+Filters grow from stars
+perform data processing
+Growth and Life-cycle
+Leaf and Lobe Growth
+Could be similar
+Has base width
+Pushes into growth medium
+Stem path is important part of lobe growth
+leaves can cross lobe boundaries
+both could embed and grow?
+Organ Life-cycle
+1. Organ stem exists
+2. Performs bubble allocation
+3. stem -> kernel
+4. Grows I/O lines
+5. Kernel inserts lobe stems
+6. Kernel inserts leave stems
+7. Open for business
+8. Homeostasis
+Lobe Life-cycle
+1. Lobe stem exists
+2. embed self in kernel wall
+3. perform noodle allocation
+4. Homeostasis
+Leaf Life-cycle
+1. Leaf stem exists
+2. Embeds self in lobe wall
+3. Performs noodle allocation
+4. Grows filters
+5. Homeostasis
+Homeostasis
+Allocation
+Die if allocation issues found
+Stem cells in permanent allocation, constant circulation
+Promotes regrowth of failed leaves and lobes
+If leave type missing or in short supply, cull population and replace
+Determine percentage of each
+Dynamically handle % based on input
+starving leaves w/constant stem circulation?
+Dynamic regulation of stems in kernel
+Circulation
+Kernel has a circular flow
+I/O have straight flow
+Gating
+Gates change addressing levels? Could leaf data only be valid within organs? Needing a special conversion to be viable on the organ addressing level?
+Organ ID based
+Organ Gate
+White-list data
+Kernel Gate
+White list data
+Leaf ID Based
+Leaf Gate
+White-list data
+Dynamic
+Lobe Gate
+Dynamically white-list based on contained leaf IDs
+IDs
+Organ IDs
+Input data
+Output data
+Leaf ID distribution
+Allocation size
+Lobe width and length
+Leaf ID
+Input data
+Filters -> Output Data
+Width and Length
+Development
+Block out hierarchy
+Implement Path Allocation
+Melange Organ
+Organs contain a mixture of operator elements. Much simpler structure than Hierarchical loop organization. Operator elements organize themselves into stratification, move around depending upon if they have available input elements.
+Routing would be to an organ ID first than an operator.
+Benefits
+Simple
+Inner Organization
+Should only move when seeing data? Try to organize based on certain ideas?
+????
+
+
+
+\section{DNA}
+Stores
+Size
+Reproduction Rate
+Lifespan
+Reproduction Requirements
+Growth Requirements
+Life Requirements
+Format
+Container acts as reader
+Box container
+3x3 box contains matching codons and center read row
+The program for an organism
+Needs to be easily duplicated
+Omnidirectional
+Organelles
+Combinations of actions and values
+Types
+Membrane Maintain
+Unknown​/Error Destroy
+DNA Repair
+Reproduction Monitor
+Lifespan Monitor
+Growth Monitor
 
 
 \section{Allocation}
@@ -62,6 +368,94 @@ allocation a segment at a time, static borders
 - might want to use a heirarchical organizational system?
 
 
+Segmented Allocation
+Routing
+Dedicated
+Growth
+Operator tracks input signal
+Growth Mode
+Stops operation
+Allows for confirmation of calculation chain
+Directly based on equation
+Linear
+Interstitial space where signals can traverse
+Multi-purpose
+Growth
+Common Route grows first
+Common route is seeded
+Connect inputs and outputs
+Seeds embed into walls
+Common route
+Need another org level
+Nonlinear
+Operator pulls from common route
+Could have linear routes
+Train style?
+Data
+Pattern
+Based off DNA
+Pairs
+Smallest unit
+Error resistance irt single unit
+Partners
+A and T
+G and C
+Codons
+Three pairs
+Interpreted by operators
+Forms were resistance irt sequential pairs
+Equate To
+Start
+Stop
+A
+T
+G
+C
+Allocation
+Route
+Operators
+Static size
+Operator has specific size it wants
+Useful if arb num operators deployed
+Percentage
+Allocate in halves quarters?
+Useful if specific number of operators deployed
+Determination
+How are operators chosen
+Input data directly leads to operators
+Special Input signal defines relationship​
+Determined by Organ Equation
+Operators
+Allocate multiple contiguous segments
+Input and output segment walls
+Organization Levels
+Laws of Physics
+Singular, used by all organisms
+Ecosystem
+Application level
+Determines
+overall structure
+What inputs go to organs
+What leads to outputs
+Definition
+Defined by homeostasis organisms
+Homeostasis
+Manages organisms distribution
+Organisms are replaceable
+Flexible organization required
+Environment
+Organisms + Environment = Ecosystem
+Organism
+Level of primary replacement
+Rigid organization allowed
+Organ
+Generic, in multiple organisms
+Takes input, performs operation
+Organ Addressing I/O
+Building blocks of organisms
+Is not replaced
+
+
 \subsection{Unified}
 
 Circle Allocation
@@ -86,32 +480,19 @@ Path Allocation Through Chipping
 + 3 stage swap
 
 
-\section{Routing}
-
-Paterns of Movement
-
-+ Walls of path move stream (Cilia)
-+ pulsating from end to end (swap lines)
-+ destination sends swap lines , determines rate , when there is incoming data
-
-Element Injection
-
-Acts as one element until it escapes or enters cell
-Like sabbot or virus protein coating
+\section{Calculation}
 
 
-Relate operation IDs organ IDs etc into map to understand and program the system
-Program through parameters?
-Think VHDL and signals?
+\subsection{Melange}
 
-In: A B C E
-A+B=C
-C/D =F
++ Whenever operand found, the operator moves left if not moves right
++ Should lead to layering of operators in reasonable manner?
 
+Melange of Operators Use data as notepad
+Can keep track of past calculations to have a running average on data and calculations
 
-\section{Data}
+\section{Codons}
 
-\subsection{Codons}
 Codons consist of three Pairs, 64 combinations
 The sense is used for encoding
 - Math occurs independently for pairs within codon
@@ -125,23 +506,63 @@ The sense is used for encoding
 + Stop - two of three are G and T (12)
 
 
-\section{Calculation}
-
-
-\subsection{Melange}
-
-+ Whenever operand found, the operator moves left if not moves right
-+ Should lead to layering of operators in reasonable manner?
-
-Melange of Operators Use data as notepad
-Can keep track of past calculations to have a running average on data and calculations
-
-
-\chapter{Cell-Organism Hierarchy Organization}
-
-
 
 \chapter{Agent Organization}
+
+Idea
+Perhaps thing more cooperative citizens rather than cell organization?
+Like ant swarms, agents build structures to perform calculations
+Demo that does a TCP router using a colony of agents
+Little to no barriers
+Layering Through Site Alternation
+Have a distance measureing layer by altering every-other site with a communication element
+Allows for simultaneous direction finding elements and operational elements
+Dynamic Sizes vs Static Sizes
+If factories are of a static size then less runtime calculations need to occur
+Distance vs Direction
+Direction to a thing can be found but if it is, than it cant show distance while also being indefintily scalable
+Question of wether distance or direction is stored using a communication layer
+Distance can be used by resetting to MAX VAL when 0 is reached, leading to increasing values being direction for a thing
+Additionaly, direction requires fewer bits for fidelity, possible with as little as 2 bits
+Subtractive growth
+Grow by digging into dirt
+Dirt collapse acts as a way to cleanup old stuff
+Agents
+Build structures
+Such as communication towers to commicate over long distances
+Or roads?
+Not restricted in movement
+Structures
+Summary
+Structures have modular sections
+Factories
+Perform operations
+Customize
+Factory Plans
+Growth
+use dummy data to find good positioning?
+Lead to growth of factories that produce desired input
+Farms
+Generate data
+Uses
+RNG
+Energy source that can be used to limit growth
+Ports
+Imports/Exports data
+Customize 
+Port List
+Factory Plans
+Growth
+Grow without prompt on I/O
+Lead to growth of factories that produce desired input
+Roads/Towers
+Move data
+Important structures need attachment point
+Growth
+Built to meet each other
+Unused paths die off
+Expect primary path with connected ancillary paths
+
 
 
 \chapter{Miscellaneous}
