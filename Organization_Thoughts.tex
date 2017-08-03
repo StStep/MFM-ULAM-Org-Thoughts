@@ -12,6 +12,129 @@
 
 \chapter{Overview}
 
+I've mostly been focusing on allocation, organization and data routing. 
+Treating them as all highly linked. 
+
+Spent time going down different paths:
+
+
+\section{Organization}
+
+
+\subsection{Cell-Organism Hierarchy}
+
+Elements are stuff
+Heavily allocation based
+Need boundaries
+Hierarchical, River and Trees
+Macro and micro design levels
+
+
+\subsection{Agent}
+
+Elements are agents
+Open floor plan, so to speak
+Negative space okay
+Single design level
+
+
+\section{Allocation}
+
+Tiles are resource
+Segmented vs Unified
+
+\subsection{Segmented}
+
+allocation a segment at a time, static borders
+
++ World is made up of allocation grid, made of mostly equal size segments
++ Segments allocate in entirety 
++ Segment could be routing, or processing, etc
+
+
++ Dedicated Operation Routes
+- perform allocation based on desired operations
+- this would make it very regimented
+- would have dedicated paths from one operator to another
++ General Purpose Route.
+- would have multiple things in each route
+- would need some means of pulling things from and adding to
+- might want to use a heirarchical organizational system?
+
+
+\subsection{Unified}
+
+Circle Allocation
+
+Path Allocation
+
+blowing bubbles
+
++Stem blows bubble with ID N
++Bubble n blows bubble with ID n-1 if no n-1 doesn't exist
++Bubble n dies if n+1 ID can't be found 
+
+diffusing strings
+
+Path Allocation Through Chipping
+
++ Each circle allocation takes out a chunk
++ Surface that can be eaten is marked
++ 'Mark' is a line that self adjusts
++ Maintain​s a min and and max length
++ dissolves like acid
++ 3 stage swap
+
+
+\section{Routing}
+
+Paterns of Movement
+
++ Walls of path move stream (Cilia)
++ pulsating from end to end (swap lines)
++ destination sends swap lines , determines rate , when there is incoming data
+
+Element Injection
+
+Acts as one element until it escapes or enters cell
+Like sabbot or virus protein coating
+
+
+Relate operation IDs organ IDs etc into map to understand and program the system
+Program through parameters?
+Think VHDL and signals?
+
+In: A B C E
+A+B=C
+C/D =F
+
+
+\section{Data}
+
+\subsection{Codons}
+Codons consist of three Pairs, 64 combinations
+The sense is used for encoding
+- Math occurs independently for pairs within codon
+- translation happens before math -> error refresh
+
++ A - two of three are A (10)
++ C - two of three are C (10)
++ G - two of three are G (10)
++ T - two of three are T (10)
++ Start - two of three are A and C (12)
++ Stop - two of three are G and T (12)
+
+
+\section{Calculation}
+
+
+\subsection{Melange}
+
++ Whenever operand found, the operator moves left if not moves right
++ Should lead to layering of operators in reasonable manner?
+
+Melange of Operators Use data as notepad
+Can keep track of past calculations to have a running average on data and calculations
 
 
 \chapter{Cell-Organism Hierarchy Organization}
@@ -19,6 +142,17 @@
 
 
 \chapter{Agent Organization}
+
+
+\chapter{Miscellaneous}
+
+\section{Saving Space}
+
+
+Flicker Element
+
+Flicker between elements conditionally if there is a code size limit
+
 
 
 
