@@ -1,6 +1,11 @@
 \documentclass[article,12pt,oneside]{memoir}
 
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
+
+\tightlists
+
+\usepackage{enumitem}
+\setlist{before=\vspace{-0.5\baselineskip}, after=\vspace{-0.5\baselineskip}}
 
 \setulmarginsandblock{1in}{1in}{*}
 \setlrmarginsandblock{1in}{1in}{*}
@@ -19,8 +24,6 @@
 \tableofcontents
 
 \pagebreak
-
-
 \chapter{Overview}
 
 This document is a semi-formal collection of my notes and thoughts concerning organizing calculations and data for systems like The Movable Feast Machine (MFM).
@@ -44,7 +47,6 @@ Ecosystems would have multiple copies of the same organisms, either competing or
 This area is the one I spent most of my time in and have the most material for.
 Ultimately, I determined that this system is unnecessary complicated.
 While it's fun to come up with ideas and organizations, a lot of this complexity doesn't seem to lead to worth the sometimes vague benefits.
-
 
 
 \section{Agent}
@@ -350,30 +352,38 @@ Should only move when seeing data? Try to organize based on certain ideas?
 
 
 
+\section{Codons}\label{codons}
+
+Codons consist of three Pairs, 64 combinations
+The sense is used for encoding
+- Math occurs independently for pairs within codon
+- translation happens before math -> error refresh
+
++ A - two of three are A (10)
++ C - two of three are C (10)
++ G - two of three are G (10)
++ T - two of three are T (10)
++ Start - two of three are A and C (12)
++ Stop - two of three are G and T (12)
+
+
 \section{DNA}
-Stores
-Size
-Reproduction Rate
-Lifespan
-Reproduction Requirements
-Growth Requirements
-Life Requirements
-Format
-Container acts as reader
-Box container
-3x3 box contains matching codons and center read row
-The program for an organism
-Needs to be easily duplicated
-Omnidirectional
-Organelles
-Combinations of actions and values
-Types
-Membrane Maintain
-Unknown​/Error Destroy
-DNA Repair
-Reproduction Monitor
-Lifespan Monitor
-Growth Monitor
+
+This sections describes what I called DNA, which would essentially be organism blueprints.
+It would store information like:
+
+\begin{itemize}
+	\item Size
+	\item Reproduction Rate
+	\item Lifespan
+	\item Reproduction Requirements
+	\item Growth Requirements
+	\item Life Requirements
+\end{itemize}
+
+From DNA you should be able to grow another of that organism, and it would make up most of what I refer to as seeds or stem-cells.
+The DNA itself would use something like Codons described in Section \ref{codons}.
+The container could act as a reader, to save space, and would likely need elements for reading, checking for mutations, repairing mutations, and knowing when to grow or reproduce or die.
 
 
 \section{Allocation}
@@ -522,20 +532,6 @@ Path Allocation Through Chipping
 
 Melange of Operators Use data as notepad
 Can keep track of past calculations to have a running average on data and calculations
-
-\section{Codons}
-
-Codons consist of three Pairs, 64 combinations
-The sense is used for encoding
-- Math occurs independently for pairs within codon
-- translation happens before math -> error refresh
-
-+ A - two of three are A (10)
-+ C - two of three are C (10)
-+ G - two of three are G (10)
-+ T - two of three are T (10)
-+ Start - two of three are A and C (12)
-+ Stop - two of three are G and T (12)
 
 
 \pagebreak
