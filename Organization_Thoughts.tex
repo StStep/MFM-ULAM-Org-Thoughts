@@ -15,7 +15,7 @@
 \setlength{\parskip}{1.5ex}
 
 \title{ULAM and MFM Organizational Thoughts}
-\date{August 2, 2017}
+\date{August 3, 2017}
 \author{R. Stephens Summelrin}
 
 \begin{document}
@@ -189,59 +189,14 @@ This works well with the Codon data method described in Section \ref{codons}.
 \pagebreak
 \chapter{Agent Organization}
 
-Idea
-Perhaps thing more cooperative citizens rather than cell organization?
-Like ant swarms, agents build structures to perform calculations
-Demo that does a TCP router using a colony of agents
-Little to no barriers
-Layering Through Site Alternation
-Have a distance measureing layer by altering every-other site with a communication element
-Allows for simultaneous direction finding elements and operational elements
-Dynamic Sizes vs Static Sizes
-If factories are of a static size then less runtime calculations need to occur
-Distance vs Direction
-Direction to a thing can be found but if it is, than it cant show distance while also being indefintily scalable
-Question of wether distance or direction is stored using a communication layer
-Distance can be used by resetting to MAX VAL when 0 is reached, leading to increasing values being direction for a thing
-Additionaly, direction requires fewer bits for fidelity, possible with as little as 2 bits
-Subtractive growth
-Grow by digging into dirt
-Dirt collapse acts as a way to cleanup old stuff
-Agents
-Build structures
-Such as communication towers to commicate over long distances
-Or roads?
-Not restricted in movement
-Structures
-Summary
-Structures have modular sections
-Factories
-Perform operations
-Customize
-Factory Plans
-Growth
-use dummy data to find good positioning?
-Lead to growth of factories that produce desired input
-Farms
-Generate data
-Uses
-RNG
-Energy source that can be used to limit growth
-Ports
-Imports/Exports data
-Customize 
-Port List
-Factory Plans
-Growth
-Grow without prompt on I/O
-Lead to growth of factories that produce desired input
-Roads/Towers
-Move data
-Important structures need attachment point
-Growth
-Built to meet each other
-Unused paths die off
-Expect primary path with connected ancillary paths
+I'm imaging cooperative citizens rather than a cell organization.
+Maybe something like ant swarms, where agents build structures to perform calculations.
+There would be little to no barriers, with the landscape being routes to and from calculation centers: factories.
+Factories could be of static size and shape, and have specified input and output.
+Could manage growth through resource generators?
+
+Ports could have import/export information and factory plans.
+This could be a way to define an application.
 
 
 
@@ -251,11 +206,20 @@ Expect primary path with connected ancillary paths
 \section{Saving Space}
 
 
-Flicker Element
+\subsection{Flicker Element}
 
 Flicker between elements conditionally if there is a code size limit
 
 
+\subsection{Layering Through Site Alternation}
+
+Have a distance measuring layer by altering every-other site with a communication element.
+Allows for simultaneous direction finding elements and operational element.
+
+Have to choose for either distance or direction.
+Direction to a thing can be found but if it is, than it cant show distance while also being indefinitely scalable
+Distance can be used by resetting to MAX VAL when 0 is reached, leading to increasing values being direction for a thing
+Additionally, direction requires fewer bits for fidelity, possible with as little as 2 bits
 
 
 \end{document}
