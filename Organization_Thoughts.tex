@@ -69,6 +69,7 @@ It feels much more manageable so far, but again note that I have not really impl
 This system is heavily based around allocation, especially of area.
 Routing revolves around navigating hierarchy boundaries, while moving up to higher hierarchies for traveling longer distances.
 There would be specialized structures for moving data on the top, ecosystem, level.
+
 I refer to this idea sometimes as the 'River and Trees'.
 The river being the primary routing system for the ecosystem, with the trees being the organisms on the banks that handle and produce data structures.
 The river would both loop around and flow into and out of the the application area using some kind of I/O organisms; capping the boundaries.
@@ -76,187 +77,6 @@ There would other entities to handle life-cycle, such as breaking down or removi
 The Trees themselves would be grown from stem-cell like collections of elements, or seeds.
 These groups would circle throughout the river, maintaining a certain distribution, and take root along the banks under certain conditions.
 This would lead to a dynamic distribution of organisms, that can die and be replaced according the distribution of data structures or signal elements.
-
-
-\section{Others}
-
-Summary
-A chain element goes out with a priority directions.
-There are ‘bristles’ on either side that detect the distance to an obstacle
-And it turns based on the distances measured on either side
-If the minimum distance is ever met, than the chain element will die
-Will marking its direction as bad in its parent chain
-If chain under min chain length, then it will retract and try again, making different direction choices
-In this way, the chain will crawl backwards when a link dies
-Hopefully finding a more optimal path
-Could optimize by increasing amount of info kept about bad paths
-Variables
-Priority Direction
-Min bristle distance
-Max bristle distance
-Max chain length
-Min chain length
-Bad Direction [4]
-Logic
-Pointing Priority
-if d < Max
-Turn Away onto not bad non-priority direction
-elif d < Min
-Die and mark as bad
-else
-Keep Straight
-Else
-if d < Max
-Go current direction
-elif d < Min
-Die and mark as bad
-else
-Return to priority direction
-Implementation Plan
-Implement simple single width path
-Only detects adjacent sites to chain, will detect non-adjacent chains and obstacles
-Implement bristles, only detect on obstacles
-Modify detection to be half of width, using new bristle elements Base on bubble centering logic
-Implement prior path bristles detection by current bristles
-Detect bristles from previous chains so the path will maximize turning radius and reduce bristle overlap
-Add in optimization’s such as keeping more bad path info
-Add in logic and more data to allow for path assumptions to reduce dead-end path attempts
-Future Work
-Not yet implemented
-Elements
-Path Stem
-Chain
-Bristle
-
-
-
-Organization Levels
-The following are the requirements for organization:
-Relative addressing levels
-Absolute addressing is not possible
-Perform some kind of life-cycle management
-Current Levels include:
-Organ Layer
-Lobe Layer
-Leaf Layer
-Hierarchical Loop Organization
-This forms the general organization of an organ. A hierarchical loop, where a central loop has a controlled distribution of contents. This distribution is then propagated through adjoining loops, indirectly.
-Benefits
-Higher throughput than a melange, more directed. Encapsulation of functionality. Protect information better?
-Organization Summary
-Organ
-Bubble allocation
-Variables
-Max Radius
-Organ ID
-determine leave/stem IDs
-Lobes (generic)
-Path allocation
-Variables
-base width
-max length
-Leaves
-Path allocation
-Variables
-Base width
-max length
-Stem ID
-Determines filters
-Notes
-Organ
-Hierarchical loop top-level
-Primary address level
-Has an allocation bubble
-Basic I/O ports
-Central kernel/node
-Connects to lobes and I/O
-Lobes have width, determines leaf height
-Coil out into available space
-Fit as many as possible with given width
-Leaves
-Grow within lobe wall
-Circulated through system and embed where there is open space
-simple loop
-has base width
-stem forms center
-Filters grow from stars
-perform data processing
-Growth and Life-cycle
-Leaf and Lobe Growth
-Could be similar
-Has base width
-Pushes into growth medium
-Stem path is important part of lobe growth
-leaves can cross lobe boundaries
-both could embed and grow?
-Organ Life-cycle
-1. Organ stem exists
-2. Performs bubble allocation
-3. stem -> kernel
-4. Grows I/O lines
-5. Kernel inserts lobe stems
-6. Kernel inserts leave stems
-7. Open for business
-8. Homeostasis
-Lobe Life-cycle
-1. Lobe stem exists
-2. embed self in kernel wall
-3. perform noodle allocation
-4. Homeostasis
-Leaf Life-cycle
-1. Leaf stem exists
-2. Embeds self in lobe wall
-3. Performs noodle allocation
-4. Grows filters
-5. Homeostasis
-Homeostasis
-Allocation
-Die if allocation issues found
-Stem cells in permanent allocation, constant circulation
-Promotes regrowth of failed leaves and lobes
-If leave type missing or in short supply, cull population and replace
-Determine percentage of each
-Dynamically handle % based on input
-starving leaves w/constant stem circulation?
-Dynamic regulation of stems in kernel
-Circulation
-Kernel has a circular flow
-I/O have straight flow
-Gating
-Gates change addressing levels? Could leaf data only be valid within organs? Needing a special conversion to be viable on the organ addressing level?
-Organ ID based
-Organ Gate
-White-list data
-Kernel Gate
-White list data
-Leaf ID Based
-Leaf Gate
-White-list data
-Dynamic
-Lobe Gate
-Dynamically white-list based on contained leaf IDs
-IDs
-Organ IDs
-Input data
-Output data
-Leaf ID distribution
-Allocation size
-Lobe width and length
-Leaf ID
-Input data
-Filters -> Output Data
-Width and Length
-Development
-Block out hierarchy
-Implement Path Allocation
-Melange Organ
-Organs contain a mixture of operator elements. Much simpler structure than Hierarchical loop organization. Operator elements organize themselves into stratification, move around depending upon if they have available input elements.
-Routing would be to an organ ID first than an operator.
-Benefits
-Simple
-Inner Organization
-Should only move when seeing data? Try to organize based on certain ideas?
-????
 
 
 \section{Allocation}
@@ -301,116 +121,18 @@ Some implementation ideas follow:
 	\item[Blow Bubbles Idea] Use of multiple bubble allocations along path with spacing logic
 	\item[Grow Noodle From Base Idea] Inflate from edge
 	\item[Diffusing String Idea] Reel out a string of diffusing elements that thicken
+	\item[Bristle Chain Idea] A chain of elements with sensory parts, bristles, detecting available space; tries to grow to maximize space.
 \end{description}
 
 
 \subsection{Segmented}
 
-allocation a segment at a time, static borders
+World would be made up of allocation grid, made of mostly equal size segments.
+A segment would be only allocated for a single purpose, with some being dedicated t routing.
+Routing could be from organism to organism, or be a general purpose route: the River and Trees idea.
 
-+ World is made up of allocation grid, made of mostly equal size segments
-+ Segments allocate in entirety 
-+ Segment could be routing, or processing, etc
-
-
-+ Dedicated Operation Routes
-- perform allocation based on desired operations
-- this would make it very regimented
-- would have dedicated paths from one operator to another
-+ General Purpose Route.
-- would have multiple things in each route
-- would need some means of pulling things from and adding to
-- might want to use a heirarchical organizational system?
-
-
-Segmented Allocation
-Routing
-Dedicated
-Growth
-Operator tracks input signal
-Growth Mode
-Stops operation
-Allows for confirmation of calculation chain
-Directly based on equation
-Linear
-Interstitial space where signals can traverse
-Multi-purpose
-Growth
-Common Route grows first
-Common route is seeded
-Connect inputs and outputs
-Seeds embed into walls
-Common route
-Need another org level
-Nonlinear
-Operator pulls from common route
-Could have linear routes
-Train style?
-Data
-Pattern
-Based off DNA
-Pairs
-Smallest unit
-Error resistance irt single unit
-Partners
-A and T
-G and C
-Codons
-Three pairs
-Interpreted by operators
-Forms were resistance irt sequential pairs
-Equate To
-Start
-Stop
-A
-T
-G
-C
-Allocation
-Route
-Operators
-Static size
-Operator has specific size it wants
-Useful if arb num operators deployed
-Percentage
-Allocate in halves quarters?
-Useful if specific number of operators deployed
-Determination
-How are operators chosen
-Input data directly leads to operators
-Special Input signal defines relationship​
-Determined by Organ Equation
-Operators
-Allocate multiple contiguous segments
-Input and output segment walls
-Organization Levels
-Laws of Physics
-Singular, used by all organisms
-Ecosystem
-Application level
-Determines
-overall structure
-What inputs go to organs
-What leads to outputs
-Definition
-Defined by homeostasis organisms
-Homeostasis
-Manages organisms distribution
-Organisms are replaceable
-Flexible organization required
-Environment
-Organisms + Environment = Ecosystem
-Organism
-Level of primary replacement
-Rigid organization allowed
-Organ
-Generic, in multiple organisms
-Takes input, performs operation
-Organ Addressing I/O
-Building blocks of organisms
-Is not replaced
-
-
+Allocation segments would have a control portion and a useful portion.
+The control portion would track what the segment is allocated for, and handle segment initialization, clearing, and re-allocation.
 
 
 \section{Codons}\label{codons}
@@ -457,14 +179,11 @@ The container could act as a reader, to save space, and would likely need elemen
 
 \section{Calculation}
 
+Calculation isn't something I spent a lot of time on.
+I assume parts of an organ would handle calculations.
+One idea was to have an organism have a loop where input goes through gates where operations would take place, and outputs go back into the environment.
+This works well with the Codon data method described in Section \ref{codons}.
 
-\subsection{Melange}
-
-+ Whenever operand found, the operator moves left if not moves right
-+ Should lead to layering of operators in reasonable manner?
-
-Melange of Operators Use data as notepad
-Can keep track of past calculations to have a running average on data and calculations
 
 
 \pagebreak
