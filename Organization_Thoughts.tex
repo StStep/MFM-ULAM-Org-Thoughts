@@ -1,5 +1,7 @@
 \documentclass[article,12pt,oneside]{memoir}
 
+\usepackage{hyperref}
+
 \setulmarginsandblock{1in}{1in}{*}
 \setlrmarginsandblock{1in}{1in}{*}
 \checkandfixthelayout
@@ -21,29 +23,27 @@
 
 \chapter{Overview}
 
-This document is a collection of my notes and thoughts concerning organizing calculations and data for systems like The Movable Feast Machine (MFM). 
+This document is a semi-formal collection of my notes and thoughts concerning organizing calculations and data for systems like The Movable Feast Machine (MFM).
 I've mostly been focusing on allocation, organization and data routing; treating them as strongly linked topics.
 
 My research went down two major paths, which are described below.
+I haven not implemented either of these systems, so what follows is almost entirely theory.
+I do have an circular allocation demo, which is exciting but not super relevant.
+It's here: \url{https://www.youtube.com/watch?v=diiUx5CkXa4}.
+Note that later versions have area balancing function, which isn't present in the video.
 
 
 \section{Cell-Organism Hierarchy}
 
-This organization is hierarchical and 
-Law of physics are basic parts that are used to build up to organizational units that have insides outsides and homeostasis.
+This organization is hierarchical and is on a large scale, where elements make up the matter that then becomes organizational units.
+This idea is driven by the 'Law of physics' being interpreted as basic parts that are used to build up to organizational units that have insides outsides and homeostasis.
+This leads to elements forming into parts of organisms, which are the lowest organization level that have homeostasis.
+Continuing with biological inspired terminology, organisms would then interact together forming an ecosystem.
+Ecosystems would have multiple copies of the same organisms, either competing or supporting one another.
 
-Elements are stuff
-Heavily allocation based
-Need boundaries
-Hierarchical, River and Trees
-Macro and micro design levels
-
-
-Pretty much most of my prior work
-
-Well defined boundaries
-Hierarchical organization
-Focus on moving data to destination cells
+This area is the one I spent most of my time in and have the most material for.
+Ultimately, I determined that this system is unnecessary complicated.
+While it's fun to come up with ideas and organizations, a lot of this complexity doesn't seem to lead to worth the sometimes vague benefits.
 
 
 
@@ -52,13 +52,32 @@ Focus on moving data to destination cells
 This organization handles the system as a collection of agents.
 Elements are generally individual agents, and there will be a lot of negative space.
 It will have little to no hierarchy.
-
+An element represents a general agent.
 This organization is inspired by city management games.
 I imagine centers of activity with data processing setup along data routes through the system.
 Akin to cities importing and exporting goods along roads of varying size.
 
+This idea is both simpler and less developed.
+It feels much more manageable so far, but again note that I have not really implemented either of these systems, so it's just manageable in theory.
 
+
+\pagebreak
 \chapter{Cell-Organism Hierarchy Organization}
+
+
+This system is heavily based around allocation, especially of area.
+Routing revolves around navigating hierarchy boundaries, while moving up to higher hierarchies for traveling longer distances.
+There would be specialized structures for moving data on the top, ecosystem, level.
+I refer to this idea sometimes as the 'River and Trees'.
+The river being the primary routing system for the ecosystem, with the trees being the organisms on the banks that handle and produce data structures.
+The river would both loop around and flow into and out of the the application area using some kind of I/O organisms; capping the boundaries.
+There would other entities to handle life-cycle, such as breaking down or removing detritus elements.
+The Trees themselves would be grown from stem-cell like collections of elements, or seeds.
+These groups would circle throughout the river, maintaining a certain distribution, and take root along the banks under certain conditions.
+This would lead to a dynamic distribution of organisms, that can die and be replaced according the distribution of data structures or signal elements.
+
+
+\section{Others}
 
 
 Specifications
@@ -519,7 +538,7 @@ The sense is used for encoding
 + Stop - two of three are G and T (12)
 
 
-
+\pagebreak
 \chapter{Agent Organization}
 
 Idea
@@ -578,6 +597,7 @@ Expect primary path with connected ancillary paths
 
 
 
+\pagebreak
 \chapter{Miscellaneous}
 
 \section{Saving Space}
