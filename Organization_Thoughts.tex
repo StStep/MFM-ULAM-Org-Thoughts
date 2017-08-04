@@ -354,22 +354,31 @@ Should only move when seeing data? Try to organize based on certain ideas?
 
 \section{Codons}\label{codons}
 
-Codons consist of three Pairs, 64 combinations
-The sense is used for encoding
-- Math occurs independently for pairs within codon
-- translation happens before math -> error refresh
+Codons are a data storage method that takes space, and has redundancy checks for a robust way of maintain data across long distances.
+This storage method is largely influenced by DNA storage, hence the name codon.
+A Codons consist of three Pairs of elements, with 64 total combinations.
+An individual pair simply needs to be an identifiable combination of two elements.
+A codon translate to an A, C, G or T if at least two of the three pairs are A, C, G or T respectively.
+This system allows for operation to be perform on all three pairs independently, where a translation can happening afterwards to remove unlikely resolutions.
+For error handling, invalid pairs or codons could be dropped.
 
-+ A - two of three are A (10)
-+ C - two of three are C (10)
-+ G - two of three are G (10)
-+ T - two of three are T (10)
-+ Start - two of three are A and C (12)
-+ Stop - two of three are G and T (12)
+Codons would be strung together to form values. With special codons designated as Stop and Start codons.
+It would essentially form a base 4 storage system.
+
+The combination breakdown is as follows:
+\begin{itemize}
+	\item A - two of three are A (10)
+	\item C - two of three are C (10)
+	\item G - two of three are G (10)
+	\item T - two of three are T (10)
+	\item Start - two of three are A and C (12)
+	\item Stop - two of three are G and T (12)
+\end{itemize}
 
 
-\section{DNA}
+\section{Organism DNA}
 
-This sections describes what I called DNA, which would essentially be organism blueprints.
+This sections describes what I called Organism DNA, which would essentially be organism blueprints.
 It would store information like:
 
 \begin{itemize}
