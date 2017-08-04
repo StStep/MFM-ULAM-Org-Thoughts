@@ -31,7 +31,7 @@ I've mostly been focusing on allocation, organization and data routing; treating
 
 My research went down two major paths, which are described below.
 I haven not implemented either of these systems, so what follows is almost entirely theory.
-I do have an circular allocation demo, which is exciting but not super relevant.
+I do have an bubble allocation demo, which is exciting but not super relevant.
 It's here: \url{https://www.youtube.com/watch?v=diiUx5CkXa4}.
 Note that later versions have area balancing function, which isn't present in the video.
 
@@ -66,7 +66,6 @@ It feels much more manageable so far, but again note that I have not really impl
 \pagebreak
 \chapter{Cell-Organism Hierarchy Organization}
 
-
 This system is heavily based around allocation, especially of area.
 Routing revolves around navigating hierarchy boundaries, while moving up to higher hierarchies for traveling longer distances.
 There would be specialized structures for moving data on the top, ecosystem, level.
@@ -80,100 +79,6 @@ This would lead to a dynamic distribution of organisms, that can die and be repl
 
 
 \section{Others}
-
-
-Specifications
-General restrictions being followed.
-Element Restrictions
-Note: There are 71 usable bits for element instance members, and 32 bits for quarks.
-Personal Restrictions
-Currently, the event window look-ups are restricted to adjacent sites, sites 1 through 4 as a HW implementation feasibility measure.
-Allocations Types
-Summary
-The desired requirements for allocation, size management, systems are the following:
-Containing a space with a specified shape
-Able to specify a max allocation
-Separates between different allocation IDs and from unknown elements
-Growth of allocated space tries to fill available space
-Deal gracefully with inconsistencies in shape of available space
-Kill allocation process if unfeasible
-Demos
-[ULAM - Bubble Allocation Demo]([https://www.youtube.com/watch?v=diiUx5CkXa4](https://www.youtube.com/watch?v=diiUx5CkXa4))
-Bubble Allocation
-Summary
-Creates a circle of a max radius if given infinite room
-Allocates using a max radius from a center point
-Locates the centroid of a space if constrained
-Standard allocation on display in github repo.
-Development Process
-The chosen bubble allocation process went through multiple development stages. The selection process involved multiple development groups, with Group 4 being chosen. More details in past commits.
-Group 1 CANCELED 
-Crystalline growth, limited by inconsistencies in available area
-Group 2 CANCELED 
-Initial amorphous growth attempt, unstable
-Group 3 CANCELED 
-Pulsing growth attempt, ran into growth instability, fuse problem
-Group 4
-Based on group 2, with a logic pass-over to improve stability
-Even Distribution of Nuclei of same ID
-Use barriers between nuclei of same ID
-every nucleus/stem have a unique ID separate from type
-transparent barriers form between nuclei of the same type
-allocations will join up together upon death/finalization
-if two of same ID meet, they should merge
-emitters transmit through transparent barriers?
-Future Work
-Currently, Cytoplasm based distance measuring means internal non-Cytoplasm elements will alter the overall shape of the allocated space
-Nucleus auto-centering works with simple organizations, current issues:
-Edges of world are preferable to auto-center, going to expect edges to exist for now
-Elements
-Nucleus
-This element initiates site allocation, by creating Cytoplasm elements, and setting their dist data member.
-Has an ID, that is bestowed on Cytoplasm children.
-The ID is used to separate allocated sites by purpose.
-Two nuclei of differing ID will not merge, and will stay distinct.
-Two nuclei of the same ID will share allocated sites.
-A nucleus will die if it is surrounded by Membrane elements.
-Nuclei currently attempt to auto-center themselves within spaces, see Future Work for progress concerning this.
-Parameters:
-maxDist - This parameter determines how much space is allocated.
-Cytoplasm
-This element serves as the primary mechanism for size management.
-Keeps track of a distance value, that decrements going outwards from the nucleus, that is used to determine distance.
-The life-cycle of Cytoplasm is strongly connected to the Membrane life-cycle.
-Membrane
-This element represents the boundary of allocated space.
-This element forms as Cytoplasm elements contact unknown elements, Cytoplasm of a differing ID, or the max allocation range.
-Path Allocation
-Summary
-Creates straight path of a given max width and length if given infinite room
-Goal is the allocation of a path of a minimum width
-Allocations from an edge outwards using a max width and max length
-Ideally, will bend to use up available space
-Development Process
-Below are proposed development directions that this allocation can be accomplished by.
-Edge Idea
-WAITING
-Build layer by layer by active edge
-The edge being built changes from cycle to cycle based on open sites
-Blow Bubbles Idea
-Using multiple bubble allocations
-The centers of each bubble allocation form the path
-Could have a distance restriction from previous bubble
-While trying to separate self from other bubbles
-Retracts if previous bubble moves too far away
-Use transparent barriers and exciters to track nuclei separation
-Variables
-N - number of bubbles
-W - Width of path
-Path length ~ W(N/4 + 1/2)
-Bubble radius ~ W/2
-Bubble separation ~ W/4
-Grow Noodle From Base Idea
-WAITING
-Have forward edge handle collision and bending?
-Bristled Chain Idea
-IN-PROGRESS
 
 Summary
 A chain element goes out with a priority directions.
@@ -222,6 +127,9 @@ Elements
 Path Stem
 Chain
 Bristle
+
+
+
 Organization Levels
 The following are the requirements for organization:
 Relative addressing levels
@@ -351,54 +259,50 @@ Should only move when seeing data? Try to organize based on certain ideas?
 ????
 
 
-
-\section{Codons}\label{codons}
-
-Codons are a data storage method that takes space, and has redundancy checks for a robust way of maintain data across long distances.
-This storage method is largely influenced by DNA storage, hence the name codon.
-A Codons consist of three Pairs of elements, with 64 total combinations.
-An individual pair simply needs to be an identifiable combination of two elements.
-A codon translate to an A, C, G or T if at least two of the three pairs are A, C, G or T respectively.
-This system allows for operation to be perform on all three pairs independently, where a translation can happening afterwards to remove unlikely resolutions.
-For error handling, invalid pairs or codons could be dropped.
-
-Codons would be strung together to form values. With special codons designated as Stop and Start codons.
-It would essentially form a base 4 storage system.
-
-The combination breakdown is as follows:
-\begin{itemize}
-	\item A - two of three are A (10)
-	\item C - two of three are C (10)
-	\item G - two of three are G (10)
-	\item T - two of three are T (10)
-	\item Start - two of three are A and C (12)
-	\item Stop - two of three are G and T (12)
-\end{itemize}
-
-
-\section{Organism DNA}
-
-This sections describes what I called Organism DNA, which would essentially be organism blueprints.
-It would store information like:
-
-\begin{itemize}
-	\item Size
-	\item Reproduction Rate
-	\item Lifespan
-	\item Reproduction Requirements
-	\item Growth Requirements
-	\item Life Requirements
-\end{itemize}
-
-From DNA you should be able to grow another of that organism, and it would make up most of what I refer to as seeds or stem-cells.
-The DNA itself would use something like Codons described in Section \ref{codons}.
-The container could act as a reader, to save space, and would likely need elements for reading, checking for mutations, repairing mutations, and knowing when to grow or reproduce or die.
-
-
 \section{Allocation}
 
-Tiles are resource
-Segmented vs Unified
+Space is a major resource in this organization and the management of this space is generally referred to as allocation.
+This was my initial area of study into this system, and forms the base and direction of a lot of my further research.
+This is broken into two areas.
+
+The unified area is a dynamic allocation that takes as much space as it can, up to a size.
+It would theoretically be the most efficient use of space, but it is difficult to manage.
+It works well with simple problems, but doesn't scale well, due to a large percentage of area being dedicated to allocation.
+
+The Segmented Allocation is an allocation of a number of fixed segments.
+It is simpler to manage, and a smaller percentage of total area is for allocation logic.
+This allocation type seems more reasonable, and I turned to this after having issues scaling the unified allocation method.
+
+
+\subsection{Unified}
+
+Unified allocation is allocation done an a site by site basis, and I broke it into two types.
+
+
+\subsubsection{Bubble Allocation}
+
+Bubble Allocation creates a circle of a max radius if given infinite room.
+It allocates using a max radius from a center point, locating a centroid of a space if constrained.
+This can be done by having edge elements of the allocation maintain distance from the center though some life-cycle.
+I do this by having the edges dissolve if they are surrounded by inside, die if they are alone, and stay strong if they are on the edge or surrounded by foreign elements.
+A demo can be found here: \url{https://www.youtube.com/watch?v=diiUx5CkXa4}.
+
+
+\subsubsection{Path Allocation}
+
+I never implemented path allocation as opposed to bubble allocation.
+It would creates a path of a given max width and length if given infinite room, with the goal being the allocation of a path of a minimum width.
+It would allocations from an edge outwards using a max width and max length, while ideally bending to use up available space.
+
+Some implementation ideas follow:
+
+\begin{description}
+	\item[Edge Idea] Build layer by layer by active edge
+	\item[Blow Bubbles Idea] Use of multiple bubble allocations along path with spacing logic
+	\item[Grow Noodle From Base Idea] Inflate from edge
+	\item[Diffusing String Idea] Reel out a string of diffusing elements that thicken
+\end{description}
+
 
 \subsection{Segmented}
 
@@ -507,29 +411,49 @@ Building blocks of organisms
 Is not replaced
 
 
-\subsection{Unified}
 
-Circle Allocation
 
-Path Allocation
+\section{Codons}\label{codons}
 
-blowing bubbles
+Codons are a data storage method that takes space, and has redundancy checks for a robust way of maintain data across long distances.
+This storage method is largely influenced by DNA storage, hence the name codon.
+A Codons consist of three Pairs of elements, with 64 total combinations.
+An individual pair simply needs to be an identifiable combination of two elements.
+A codon translate to an A, C, G or T if at least two of the three pairs are A, C, G or T respectively.
+This system allows for operation to be perform on all three pairs independently, where a translation can happening afterwards to remove unlikely resolutions.
+For error handling, invalid pairs or codons could be dropped.
 
-+Stem blows bubble with ID N
-+Bubble n blows bubble with ID n-1 if no n-1 doesn't exist
-+Bubble n dies if n+1 ID can't be found 
+Codons would be strung together to form values. With special codons designated as Stop and Start codons.
+It would essentially form a base 4 storage system.
 
-diffusing strings
+The combination breakdown is as follows:
+\begin{itemize}
+	\item A - two of three are A (10)
+	\item C - two of three are C (10)
+	\item G - two of three are G (10)
+	\item T - two of three are T (10)
+	\item Start - two of three are A and C (12)
+	\item Stop - two of three are G and T (12)
+\end{itemize}
 
-Path Allocation Through Chipping
 
-+ Each circle allocation takes out a chunk
-+ Surface that can be eaten is marked
-+ 'Mark' is a line that self adjusts
-+ Maintain​s a min and and max length
-+ dissolves like acid
-+ 3 stage swap
+\section{Organism DNA}
 
+This sections describes what I called Organism DNA, which would essentially be organism blueprints.
+It would store information like:
+
+\begin{itemize}
+	\item Size
+	\item Reproduction Rate
+	\item Lifespan
+	\item Reproduction Requirements
+	\item Growth Requirements
+	\item Life Requirements
+\end{itemize}
+
+From DNA you should be able to grow another of that organism, and it would make up most of what I refer to as seeds or stem-cells.
+The DNA itself would use something like Codons described in Section \ref{codons}.
+The container could act as a reader, to save space, and would likely need elements for reading, checking for mutations, repairing mutations, and knowing when to grow or reproduce or die.
 
 \section{Calculation}
 
